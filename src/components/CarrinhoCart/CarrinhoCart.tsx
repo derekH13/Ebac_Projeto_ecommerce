@@ -17,7 +17,7 @@ const CarrinhoCart = ({ titulo, preco, imagem }: props) => {
           {titulo}
         </Text>
         <Text color={colors.CorLaranja} peso={400} size={14} className="preco">
-          {preco}
+          R$ {preco}0
         </Text>
       </div>
 

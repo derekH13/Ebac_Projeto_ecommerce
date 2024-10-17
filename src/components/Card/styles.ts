@@ -33,6 +33,18 @@ export const CardEstilo = styled.div<PropsCard>`
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      span {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        img {
+          margin-left: 4px;
+          height: 20px;
+          width: 20px;
+        }
+      }
     }
   }
 `

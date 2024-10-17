@@ -1,5 +1,6 @@
 import { CardCardapioProps } from '../../interface/interface'
 import { Botao, colors, Text } from '../../styles/style'
+import { Util } from '../../Util/Util'
 import { EstiloCard } from './styles'
 
 const CardCardapio = ({
@@ -8,11 +9,28 @@ const CardCardapio = ({
   onClick,
   titulo,
   buttonText,
-  onClickModal
+  onClickModal,
+  imagem,
+  id,
+  pegaridCard
 }: CardCardapioProps) => {
+  if (!imagem) {
+    return <>...</>
+  }
+
+  if (!descricao) {
+    return <>...</>
+  }
+
+  function clicouBotao() {
+    if (!onClickModal || !pegaridCard) return
+    onClickModal()
+    if (id) pegaridCard(id)
+  }
+
   return (
     <EstiloCard rowoucolumn={rowoucolumn}>
-      <img src="/assets/comida_1.png" alt="" />
+      <img src={imagem} alt="" />
 
       {!(buttonText == 'Adicionar ao carrinho') ? (
         <div onClick={onClick} className="close__fechar">
@@ -27,7 +45,7 @@ const CardCardapio = ({
           {titulo}
         </Text>
         <Text peso={400} size={14} color={colors.CorBage} className="desc">
-          {descricao}
+          {Util.DescDiminuir(descricao)}
         </Text>
 
         {!(buttonText === 'Adicionar ao carrinho') ? (
@@ -38,7 +56,7 @@ const CardCardapio = ({
           ''
         )}
 
-        <Botao onClick={onClickModal}>{buttonText}</Botao>
+        <Botao onClick={() => clicouBotao()}>{buttonText}</Botao>
       </div>
     </EstiloCard>
   )

@@ -2,15 +2,10 @@ import { useEffect, useState } from 'react'
 import { Botao, colors, Text } from '../../styles/style'
 import CarrinhoCart from '../CarrinhoCart/CarrinhoCart'
 import { Cart, ModalCart, Container } from './styles'
-
-export type Cart = {
-  titulo: string
-  preco: string
-  imagem: string
-}
+import { ComidaCardapio } from '../../interface/interface'
 
 type props = {
-  dadosCart: Cart[]
+  dadosCart: ComidaCardapio[]
   onClick: () => void
   onClickEndereco: () => void
 }
@@ -18,28 +13,12 @@ type props = {
 const Carrinho = ({ dadosCart, onClick, onClickEndereco }: props) => {
   const [valorTotal, setValorTotal] = useState(0)
 
-  function ResultTotal() {
-    const result = dadosCart.map((item) => {
-      const x = item.preco.split(' ') // Separa a string
-      return parseFloat(x[1]) // Usa parseFloat para lidar com decimais
-    })
+  console.log(dadosCart)
 
-    return result
-  }
-
-  // Chama a função ResultTotal e calcula o total
   useEffect(() => {
-    const total = ResultTotal().reduce(
-      (acumulador, item) => acumulador + item,
-      0
-    )
-    setValorTotal(total) // Atualiza o valor total
-  }, [dadosCart]) // Dependência para recalcular quando dadosCart mudar
-
-  // Exemplo de uso
-  console.log(valorTotal)
-
-  ResultTotal()
+    const total = dadosCart.reduce((acc, item) => acc + item.preco, 0)
+    setValorTotal(total)
+  }, [dadosCart])
 
   return (
     <ModalCart>
@@ -52,9 +31,9 @@ const Carrinho = ({ dadosCart, onClick, onClickEndereco }: props) => {
           {dadosCart.map((item, index) => (
             <CarrinhoCart
               key={index}
-              titulo={item.titulo}
-              preco={item.preco}
-              imagem={item.imagem}
+              titulo={item.nome}
+              preco={item.preco.toString()}
+              imagem={item.foto}
             />
           ))}
         </Container>
@@ -66,7 +45,7 @@ const Carrinho = ({ dadosCart, onClick, onClickEndereco }: props) => {
             </Text>
 
             <Text color={colors.CorBage} peso={700} size={14}>
-              R$ {valorTotal},99
+              R$ {valorTotal}0
             </Text>
           </div>
 

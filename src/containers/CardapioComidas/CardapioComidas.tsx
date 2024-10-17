@@ -1,27 +1,51 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CardCardapio from '../../components/CardCardapio/CardCardapio'
 import { Container } from './styles'
 import ModalComida from '../../components/ModalComida/ModalComida'
-import Carrinho, { Cart } from '../../components/Carrinho/Carrinho'
+import Carrinho from '../../components/Carrinho/Carrinho'
 import ModalEndereco from '../../components/ModalEbdereco/ModalEbdereco'
 import ModalCartao from '../../components/ModalCartao/ModalCartao'
-
-const cartItems: Cart[] = [
-  {
-    titulo: 'Pizza Marguerita',
-    preco: 'R$ 60,99',
-    imagem: '/assets/comida_1.png'
-  }
-]
+import { Util } from '../../Util/Util'
+import { ComidaCardapio, Restaurantes } from '../../interface/interface'
+import { useParams } from 'react-router-dom'
 
 export const CardapioComidas = () => {
   const [Modal, setModal] = useState(false)
   const [ModalCart, setModalCart] = useState(false)
   const [ModalEnderecos, setModalEnderecos] = useState(false)
   const [ModalCartoes, setModalCartoes] = useState(false)
+  const [DadosModal, setDadosModal] = useState<ComidaCardapio[]>()
+  const [dataComidas, setDataComidas] = useState<ComidaCardapio[]>()
+  const [cart, setCart] = useState<ComidaCardapio[]>([])
+
+  const parametro = useParams()
+
+  useEffect(() => {
+    Util.requisição().then((data) => {
+      console.log(parametro.id)
+
+      if (parametro.id) {
+        if (data) setDataComidas(data[parseInt(parametro.id)].cardapio)
+      }
+    })
+  }, [])
 
   function toggleModal() {
     setModal(!Modal)
+  }
+
+  function PegaridCArd(idCard: number) {
+    setModal(!Modal)
+
+    const result = dataComidas?.filter((item) => item.id == idCard)
+
+    setDadosModal(result)
+  }
+
+  function adicionarCart(comida: ComidaCardapio) {
+    console.log(comida)
+
+    if (cart) setCart([...cart, comida])
   }
 
   function AbrirCart() {
@@ -49,65 +73,53 @@ export const CardapioComidas = () => {
     setModalCartoes(false)
   }
 
+  if (!dataComidas) {
+    return (
+      <>
+        <h1>carregando..</h1>
+      </>
+    )
+  }
+
   return (
     <>
       <div className="Interface">
         <Container>
-          <CardCardapio
-            titulo="Pizza Marguerita"
-            descricao="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            buttonText="Adicionar ao carrinho"
-            rowoucolumn="column"
-            onClickModal={toggleModal}
-          />
-          <CardCardapio
-            titulo="Pizza Marguerita"
-            descricao="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            buttonText="Adicionar ao carrinho"
-            rowoucolumn="column"
-            onClickModal={toggleModal}
-          />
-          <CardCardapio
-            titulo="Pizza Marguerita"
-            descricao="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            buttonText="Adicionar ao carrinho"
-            rowoucolumn="column"
-            onClickModal={toggleModal}
-          />
-          <CardCardapio
-            titulo="Pizza Marguerita"
-            descricao="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            buttonText="Adicionar ao carrinho"
-            rowoucolumn="column"
-            onClickModal={toggleModal}
-          />
-          <CardCardapio
-            titulo="Pizza Marguerita"
-            descricao="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            buttonText="Adicionar ao carrinho"
-            rowoucolumn="column"
-            onClickModal={toggleModal}
-          />
-          <CardCardapio
-            titulo="Pizza Marguerita"
-            descricao="A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!"
-            buttonText="Adicionar ao carrinho"
-            rowoucolumn="column"
-            onClickModal={toggleModal}
-          />
+          {dataComidas.map((item) => (
+            <CardCardapio
+              key={item.id}
+              id={item.id}
+              imagem={item.foto}
+              titulo={item.nome}
+              descricao={item.descricao}
+              buttonText="Adicionar ao carrinho"
+              rowoucolumn="column"
+              onClickModal={toggleModal}
+              pegaridCard={PegaridCArd}
+            />
+          ))}
         </Container>
       </div>
 
-      {Modal && (
-        <ModalComida onClick1={toggleModal} onClickModal1={AbrirCart} />
+      {Modal && DadosModal ? (
+        <ModalComida
+          adicionarCart={adicionarCart}
+          dadosComida={DadosModal}
+          onClick1={AbrirCart}
+          onClickModal1={toggleModal}
+        />
+      ) : (
+        ''
       )}
 
-      {ModalCart && (
+      {ModalCart && cart ? (
         <Carrinho
-          dadosCart={cartItems}
+          dadosCart={cart}
           onClick={fecharCart}
           onClickEndereco={IrEndereco}
         />
+      ) : (
+        ''
       )}
 
       {ModalEnderecos && (

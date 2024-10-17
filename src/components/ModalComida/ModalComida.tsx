@@ -1,24 +1,58 @@
+import { ComidaCardapio } from '../../interface/interface'
+import { Botao, Text } from '../../styles/style'
 import CardCardapio from '../CardCardapio/CardCardapio'
 import { Modal } from './styles'
 
 type props = {
   onClick1: () => void
   onClickModal1: () => void
+  dadosComida: ComidaCardapio[]
+  adicionarCart: (comida: ComidaCardapio) => void
 }
 
-const ModalComida = ({ onClick1, onClickModal1 }: props) => (
-  <Modal>
-    <div className="Interface">
-      <CardCardapio
-        titulo="Pizza Marguerita"
-        descricao="A pizza Margherita é uma pizza clássica da culinária italiana, reconhecida por sua simplicidade e sabor inigualável. Ela é feita com uma base de massa fina e crocante, coberta com molho de tomate fresco, queijo mussarela de alta qualidade, manjericão fresco e azeite de oliva extra-virgem. A combinação de sabores é perfeita, com o molho de tomate suculento e ligeiramente ácido, o queijo derretido e cremoso e as folhas de manjericão frescas, que adicionam um toque de sabor herbáceo. É uma pizza simples, mas deliciosa, que agrada a todos os paladares e é uma ótima opção para qualquer ocasião."
-        rowoucolumn="row"
-        buttonText="Adicionar ao carrinho - R$ 60,99"
-        onClick={onClick1}
-        onClickModal={onClickModal1}
-      />
-    </div>
-  </Modal>
-)
+const ModalComida = ({
+  onClick1,
+  onClickModal1,
+  dadosComida,
+  adicionarCart
+}: props) => {
+  function clicou() {
+    onClick1()
+    adicionarCart(dadosComida[0])
+  }
 
+  return (
+    <Modal>
+      <div className="Interface">
+        <div className="card__modal">
+          <div className="card__modal__content">
+            <div onClick={onClickModal1} className="close__fechar">
+              <img src="/assets/close.svg" alt="" />
+            </div>
+
+            <img src={dadosComida[0].foto} alt="" className="imagem" />
+
+            <div className="card__modal__content__info">
+              <Text color="white" peso={900} size={18}>
+                {dadosComida[0].nome}
+              </Text>
+
+              <Text color="white" peso={400} size={14} className="desc">
+                {dadosComida[0].descricao}
+              </Text>
+
+              <Text color="white" peso={400} size={14}>
+                {dadosComida[0].porcao}
+              </Text>
+
+              <Botao onClick={clicou}>
+                Adicionar ao carrinho - R$ {dadosComida[0].preco}
+              </Botao>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Modal>
+  )
+}
 export default ModalComida
