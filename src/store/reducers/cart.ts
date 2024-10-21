@@ -1,24 +1,46 @@
+// Recursos externos
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ComidaCardapio } from '../../interface/interface'
 
-type stateCart = {
-  items: ComidaCardapio[]
+export interface CartItem {
+  id: number // Identificador único do item
+  foto: string
+  descricao: string
+  preco: number
+  nome: string
+  porcao: string
 }
 
-const initialState: stateCart = {
-  items: []
+type CartState = {
+  items: CartItem[]
+  isOpen: boolean
+}
+
+const initialState: CartState = {
+  items: [],
+  isOpen: false
 }
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    adicionar: (state, action: PayloadAction<ComidaCardapio>) => {
+    add: (state, action: PayloadAction<CartItem>) => {
       state.items.push(action.payload)
+    },
+    open: (state) => {
+      state.isOpen = true
+    },
+    close: (state) => {
+      state.isOpen = false
+    },
+    remove: (state, action: PayloadAction<number>) => {
+      state.items = state.items.filter((item) => item.id !== action.payload)
+    },
+    clear: (state) => {
+      state.items = []
     }
   }
 })
 
-export const { adicionar } = cartSlice.actions
-
+export const { add, open, close, remove, clear } = cartSlice.actions
 export default cartSlice.reducer

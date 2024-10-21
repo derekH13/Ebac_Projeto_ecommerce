@@ -1,50 +1,46 @@
 import styled from 'styled-components'
-import { PropsCard } from '../../interface/interface'
-import { colors, Text } from '../../styles/style'
+import { colors } from '../../styles'
 
-export const CardEstilo = styled.div<PropsCard>`
-  max-width: ${(PropsCard) => PropsCard.width}px;
+export const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: ${(PropsCard) => PropsCard.height}px;
-  background-color: ${(PropsCard) => PropsCard.corFundo};
-  color: ${(PropsCard) => PropsCard.corTexto};
-  display: flex;
-  flex-direction: column;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.7;
+`
 
-  img {
-    width: 100%;
-    height: 217px;
+export const Container = styled.div<{ isOverlay: boolean }>`
+  position: fixed; /*  ${({ isOverlay }) => (isOverlay ? 'fixed' : 'fixed')} */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1;
+  background: ${({ isOverlay }) => (isOverlay ? 'rgba(0, 0, 0, 0.8)' : 'none')};
+`
+
+export const Sidebar = styled.aside`
+  background-color: ${colors.LightSalmon};
+  max-width: 360px;
+  width: 100%;
+  max-height: 1624px;
+  height: 100%;
+  padding: 32px 8px 0 7px;
+
+  .divFormulario {
+    margin-bottom: 24px;
   }
 
-  .card__content {
-    max-height: 100%;
-    height: 100%;
-    border-bottom: 1px solid ${colors.CorLaranja};
-    border-left: 1px solid ${colors.CorLaranja};
-    border-right: 1px solid ${colors.CorLaranja};
-    padding: 8px;
-
-    .descricao {
-      margin: 16px 0px;
-      line-height: 22px;
-    }
-
-    &__titulo {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      span {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        img {
-          margin-left: 4px;
-          height: 20px;
-          width: 20px;
-        }
-      }
-    }
+  h2 {
+    color: ${colors.BlanchedAlmond};
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 16.41px;
+    margin: 8px 0 16px 0;
   }
 `

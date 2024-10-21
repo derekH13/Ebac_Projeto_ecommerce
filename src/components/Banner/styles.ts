@@ -1,29 +1,73 @@
 import styled from 'styled-components'
-import { colors, Text } from '../../styles/style'
+import { breakpoints, colors } from '../../styles'
 
-export const ContainerBanner = styled.div`
-  height: 384px;
-  max-width: 100%;
+export const ImgBanner = styled.div`
   width: 100%;
-  background-color: ${colors.CorBage};
-  padding-top: 64px;
+  height: 280px;
+  display: block;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
 
-  .interface {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  h3 {
+    font-size: 32px;
+    font-weight: 100;
+    color: ${colors.white};
+    padding-top: 25px;
+    margin-left: 171px;
+    z-index: 1;
+    position: relative;
 
-    img {
-      width: 125px;
-      height: 57px;
-      margin: 0 auto;
+    /* Responsividade */
+    @media (max-width: ${breakpoints.tablet}) {
+      font-size: 24px;
+      margin-left: 20px;
+      padding-top: 15px;
     }
 
-    ${Text} {
-      max-width: 539px;
-      text-align: center;
-      margin: 0 auto;
-      padding-top: 138px;
+    /* Responsividade */
+    @media (max-width: ${breakpoints.mobile}) {
+      font-size: 24px;
+      margin-left: 20px;
+      padding-top: 15px;
     }
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 900;
+    color: ${colors.white};
+    padding-top: 156px;
+    padding-bottom: 32px;
+    margin-left: 171px;
+    z-index: 1;
+    position: relative;
+
+    /* Responsividade */
+    @media (max-width: ${breakpoints.tablet}) {
+      font-size: 28px;
+      margin-left: 20px;
+      padding-top: 100px;
+      padding-bottom: 16px;
+    }
+
+    /* Responsividade */
+    @media (max-width: ${breakpoints.mobile}) {
+      font-size: 28px;
+      margin-left: 20px;
+      padding-top: 100px;
+      padding-bottom: 16px;
+    }
+  }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    content: '';
+    z-index: 0;
   }
 `

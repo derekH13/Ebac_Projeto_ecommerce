@@ -1,27 +1,27 @@
-import React from 'react'
-import { BrowserRouter, Route, Routes as Switch } from 'react-router-dom'
-import Home from './pages/Home'
-import Cardapio from './pages/Cardapio'
+// Recursos externos
 import { Provider } from 'react-redux'
-import { store } from './store'
+import { BrowserRouter } from 'react-router-dom'
 
-const Rotas = () => {
-  return (
-    <Switch>
-      <Route path="/" element={<Home />} />
-      <Route path="/pagina-cardapio/:id" element={<Cardapio />} />
-    </Switch>
-  )
-}
+// Componentes
+import Cart from './components/Cart'
+import Footer from './components/Footer'
+import Rotas from './routes'
+
+// Estilos
+import { GlobalCSS } from './styles'
+
+// Funções
+import { store } from './store'
 
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
-        <BrowserRouter>
-          <Rotas />
-        </BrowserRouter>
-      </div>
+      <BrowserRouter>
+        <GlobalCSS />
+        <Rotas />
+        <Footer />
+        <Cart />
+      </BrowserRouter>
     </Provider>
   )
 }
