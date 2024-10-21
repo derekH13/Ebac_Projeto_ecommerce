@@ -17,4 +17,9 @@ export class Util {
     }
     return text
   }
+
+  static formatDollarToReal(dollarValue: number) {
+    // Formata o valor em real e troca o ponto pela vírgula
+    return dollarValue.toFixed(2).replace('.', ',')
+  }
 }

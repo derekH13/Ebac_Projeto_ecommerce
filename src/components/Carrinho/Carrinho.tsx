@@ -5,6 +5,7 @@ import { Cart, ModalCart, Container } from './styles'
 import { ComidaCardapio } from '../../interface/interface'
 import { useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
+import { Util } from '../../Util/Util'
 
 type props = {
   onClick: () => void
@@ -34,7 +35,7 @@ const Carrinho = ({ onClick, onClickEndereco }: props) => {
             <CarrinhoCart
               key={index}
               titulo={item.nome}
-              preco={item.preco.toString()}
+              preco={Util.formatDollarToReal(item.preco)}
               imagem={item.foto}
             />
           ))}
@@ -47,7 +48,7 @@ const Carrinho = ({ onClick, onClickEndereco }: props) => {
             </Text>
 
             <Text color={colors.CorBage} peso={700} size={14}>
-              R$ {valorTotal}0
+              R$ {Util.formatDollarToReal(valorTotal)}
             </Text>
           </div>
 

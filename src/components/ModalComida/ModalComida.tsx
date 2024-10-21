@@ -1,5 +1,6 @@
 import { ComidaCardapio } from '../../interface/interface'
 import { Botao, Text } from '../../styles/style'
+import { Util } from '../../Util/Util'
 import CardCardapio from '../CardCardapio/CardCardapio'
 import { Modal } from './styles'
 
@@ -46,7 +47,8 @@ const ModalComida = ({
               </Text>
 
               <Botao onClick={clicou}>
-                Adicionar ao carrinho - R$ {dadosComida[0].preco}
+                Adicionar ao carrinho - R${' '}
+                {Util.formatDollarToReal(dadosComida[0].preco)}
               </Botao>
             </div>
           </div>
